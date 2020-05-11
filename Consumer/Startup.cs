@@ -6,8 +6,7 @@ using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using System;
 
-
-namespace Producer
+namespace Consumer
 {
     public class Startup
     {
@@ -24,6 +23,7 @@ namespace Producer
             var rmqFactory = new ConnectionFactory { Uri = new Uri(Configuration.GetConnectionString("RabbitMQ")) };
             var rmqConnection = rmqFactory.CreateConnection();
 
+            services.AddHostedService<BgConsumer>();
             services.AddSingleton(c => rmqConnection);
 
             services.AddControllers();

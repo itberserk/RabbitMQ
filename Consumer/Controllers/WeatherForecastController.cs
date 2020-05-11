@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
-namespace Producer.Controllers
+namespace Consumer.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -38,10 +39,6 @@ namespace Producer.Controllers
             });
 
             var channel = _rmqConnection.CreateModel();
-            channel.ExchangeDeclare("MyExchange", ExchangeType.Topic, true);
-            channel.QueueDeclare("MyQueue", true, false, false, null);
-            channel.QueueBind("MyQueue", "MyExchange", "my.routing.key.*", null);
-
 
             foreach (var item in result)
             {
